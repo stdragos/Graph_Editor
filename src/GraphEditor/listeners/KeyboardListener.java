@@ -70,13 +70,11 @@ public class KeyboardListener implements KeyListener {
                     int nodeDistance = sol.get(0).getNode_diam() * 2;
 
                     //topologicalSort will display nodes in a line
-                    int hafLineLength = (sol.size() * sol.get(0).getNode_diam() + nodeDistance * (sol.size() - 1)) / 2;
+                    int halfLineLength = (sol.size() * sol.get(0).getNode_diam() + nodeDistance * (sol.size() - 1)) / 2;
 
                     int startingY = panelHeight / 2 - 15;
 
-                    int startingX = panelWidth / 2 - hafLineLength;
-
-                    int currentX = startingX;
+                    int currentX = panelWidth / 2 - halfLineLength;
 
                     for (var node : sol) {
                         node.setCoordX(currentX);

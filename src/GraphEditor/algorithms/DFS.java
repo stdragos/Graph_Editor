@@ -20,22 +20,20 @@ public class DFS {
         List<Node> paths = new ArrayList<>();
         List<Boolean> visited = new ArrayList<Boolean>(Collections.nCopies(graph.getNodeList().size(), false));
 
-        Stack<Node> frontier = new Stack<>();
-        frontier.push(root);
+        Stack<Node> toVisit = new Stack<>();
 
-        while (!frontier.isEmpty()) {
-            Node top = frontier.peek();
-            frontier.pop();
-
-            paths.add(top);
-            visited.set(top.getNumber() - 1, true);
-
-            for(var node : top.getAdjacencyList()) {
-                if(!visited.get(node.getNumber() - 1)) {
-                    frontier.push(node);
+        toVisit.push(root);
+        while(!toVisit.isEmpty()) {
+            Node top = toVisit.peek();
+            boolean foundNeighbour = false;
+            for(var neigh : top.getAdjacencyList()) {
+                if(!visited.get(neigh.getNumber() - 1)) {
+                    toVisit.push(neigh);
+                    visited.set(neigh.getNumber() - 1, true);
+                    foundNeighbour = true;
                     if(draw) {
                         for(var edge : graph.getEdgeList()) {
-                            if(edge.getStartNode() == top && edge.getEndNode() == node) {
+                            if(edge.getStartNode() == top && edge.getEndNode() == neigh) {
 
                                 edge.highlightEdge();
                                 panel.repaint();
@@ -46,11 +44,14 @@ public class DFS {
                             }
                         }
                     }
-                    node.setParent(top);
+                    break;
                 }
             }
-        }
+            if(foundNeighbour)
+                continue;
 
+            toVisit.pop();
+        }
         return paths;
     }
 

@@ -1,6 +1,6 @@
 package GraphEditor.algorithms;
 
-import GraphEditor.Utils.Graph;
+import GraphEditor.utils.Graph;
 import GraphEditor.models.Node;
 
 import java.util.*;

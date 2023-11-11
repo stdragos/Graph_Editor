@@ -3,10 +3,8 @@ package GraphEditor;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.List;
 
-import GraphEditor.Utils.Graph;
+import GraphEditor.utils.Graph;
 import GraphEditor.algorithms.DFS;
 import GraphEditor.algorithms.TopologicalSort;
 import GraphEditor.listeners.KeyboardListener;

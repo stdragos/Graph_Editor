@@ -1,4 +1,4 @@
-package GraphEditor.Utils;
+package GraphEditor.utils;
 
 import GraphEditor.Panel;
 import GraphEditor.algorithms.DFS;

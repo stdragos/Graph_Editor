@@ -17,6 +17,7 @@ public class Node {
     private Color nodeColor = new Color(169, 169, 169);
     private final Color highlightColor =  new Color(13, 135, 222);
     private final Color basicColor = new Color(169, 169, 169);
+    private final Color rootColor = new Color(164, 43, 201);
 
     private int node_diam = 30;
 
@@ -25,13 +26,6 @@ public class Node {
         this.coordY = coordY;
         this.number = number;
         this.adjacencyList = new ArrayList<>();
-    }
-
-    public Node(Node another) {
-        this.coordX = another.getCoordX();
-        this.coordY = another.getCoordY();
-        this.number = another.getNumber();
-        this.adjacencyList = new ArrayList<>(another.getAdjacencyList());
     }
 
     public int getCoordX() {
@@ -131,5 +125,9 @@ public class Node {
 
     public void setParent(Node parent) {
         this.parent = parent;
+    }
+
+    public void rootColor() {
+        this.nodeColor = rootColor;
     }
 }

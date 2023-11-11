@@ -21,6 +21,7 @@ public class DFS {
         List<Boolean> visited = new ArrayList<Boolean>(Collections.nCopies(graph.getNodeList().size(), false));
 
         Stack<Node> toVisit = new Stack<>();
+        visited.set(root.getNumber() - 1, true);
 
         toVisit.push(root);
         while(!toVisit.isEmpty()) {
@@ -50,6 +51,7 @@ public class DFS {
             if(foundNeighbour)
                 continue;
 
+            paths.add(top);
             toVisit.pop();
         }
         return paths;
@@ -66,28 +68,10 @@ public class DFS {
                     Node top = frontier.peek();
                     frontier.pop();
                     visited.set(top.getNumber() - 1, visited.get(top.getNumber() - 1) + 1);
-                    if(visited.get(top.getNumber() - 1) >= visited.size() + 1) {
+                    if(visited.get(top.getNumber() - 1) >= visited.size() + 2) {
                         if(paint) {
                             try {
-                                for(var nodes : graph.getNodeList()) {
-                                    nodes.error();
-                                }
-                                panel.repaint();
-                                Thread.sleep(500);
-                                for(var nodes : graph.getNodeList()) {
-                                    nodes.unhighlight();
-                                }
-                                panel.repaint();
-                                Thread.sleep(500);
-                                for(var nodes : graph.getNodeList()) {
-                                    nodes.error();
-                                }
-                                panel.repaint();
-                                Thread.sleep(500);
-                                for(var nodes : graph.getNodeList()) {
-                                    nodes.unhighlight();
-                                }
-                                panel.repaint();
+                                graph.nodeBlinkError();
                             } catch (InterruptedException e) {
                                 throw new RuntimeException(e);
                             }
@@ -127,5 +111,19 @@ public class DFS {
             }
         }
         return true;
+    }
+
+    public boolean isQuasiStronglyConn() throws InterruptedException {
+        for(var node : graph.getNodeList()) {
+            List<Node> path = dfs(node, false);
+            /*System.out.print(path.size());
+            System.out.println(graph.getNodeList().size());
+*/
+            if (path.size() == graph.getNodeList().size()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

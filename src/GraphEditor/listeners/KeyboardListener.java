@@ -102,6 +102,16 @@ public class KeyboardListener implements KeyListener {
             }
         }
 
+        if(e.getKeyCode() == KeyEvent.VK_Q) {
+            if(!panel.getGraph().getNodeList().isEmpty()) {
+                try {
+                    System.out.println(panel.getDfs().isQuasiStronglyConn());
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        }
+
         if(e.getKeyCode() == KeyEvent.VK_E) {
             if(panel.mouseListener.getStart() != null) {
                 panel.getGraph().removeNode(panel.mouseListener.getStart());
@@ -110,6 +120,40 @@ public class KeyboardListener implements KeyListener {
             }
         }
 
+        if(e.getKeyCode() == KeyEvent.VK_R) {
+            panel.mouseListener.setHighlightedNode(-1);
+            panel.mouseListener.setStart(null);
+
+            if(!panel.getGraph().getNodeList().isEmpty())
+            {
+                new Thread(()->{
+                try {
+                    Node root = null;
+                    if(panel.getGraph().dfs.isAcyclic(false))
+                    {
+                        if(panel.getGraph().dfs.isQuasiStronglyConn()) {
+                            /*System.out.println("test");*/
+                            root = panel.getRootFinder().identifyRoot();
+                            if(root != null) {
+                                root.rootColor();
+                                panel.repaint();
+                                Thread.sleep(1500);
+                                root.unhighlight();
+                                panel.repaint();
+                            } else {
+                                panel.getGraph().nodeBlinkError();
+                            }
+                        } else {
+                            panel.getGraph().nodeBlinkError();
+                        }
+                    } else{
+                        panel.getGraph().nodeBlinkError();
+                    }
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }}).start();
+            }
+        }
         /*for(var node : panel.getGraph().getNodeList())
         {
             System.out.print(node.getNumber() + ":: ");

@@ -141,5 +141,47 @@ public class Graph {
         return directed;
     }
 
+    public void nodeBlinkError() throws InterruptedException {
+        for(var node : panel.getGraph().getNodeList()) {
+            node.error();
+        }
+        panel.repaint();
+        Thread.sleep(500);
+        for(var node : panel.getGraph().getNodeList()) {
+            node.unhighlight();
+        }
+        panel.repaint();
+        Thread.sleep(500);
+        for(var node : panel.getGraph().getNodeList()) {
+            node.error();
+        }
+        panel.repaint();
+        Thread.sleep(500);
+        for(var node : panel.getGraph().getNodeList()) {
+            node.unhighlight();
+        }
+        panel.repaint();
+    }
 
+    public void nodeBlinkGood() throws InterruptedException {
+        for(var nodes : panel.getGraph().getNodeList()) {
+            nodes.good();
+        }
+        panel.repaint();
+        Thread.sleep(500);
+        for(var nodes : panel.getGraph().getNodeList()) {
+            nodes.unhighlight();
+        }
+        panel.repaint();
+        Thread.sleep(500);
+        for(var nodes : panel.getGraph().getNodeList()) {
+            nodes.good();
+        }
+        panel.repaint();
+        Thread.sleep(500);
+        for(var nodes : panel.getGraph().getNodeList()) {
+            nodes.unhighlight();
+        }
+        panel.repaint();
+    }
 }

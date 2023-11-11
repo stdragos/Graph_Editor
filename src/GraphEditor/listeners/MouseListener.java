@@ -102,7 +102,7 @@ public class MouseListener implements javax.swing.event.MouseInputListener {
     @Override
     public void mouseDragged(MouseEvent e) {
         if(start != null && !isDragging && start.getNumber() == highlightedNode){
-            if(start.getDistance(e.getPoint()) < 30) {
+            if(start.getDistance(e.getPoint()) < start.getNode_diam()) {
                 isDragging = true;
                 panel.repaint();
             }

@@ -4,10 +4,12 @@ import GraphEditor.Panel;
 import GraphEditor.models.Edge;
 import GraphEditor.models.Node;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class KeyboardListener implements KeyListener {
     Panel panel;
@@ -153,6 +155,33 @@ public class KeyboardListener implements KeyListener {
                     throw new RuntimeException(ex);
                 }}).start();
             }
+        }
+
+        if(e.getKeyCode() == KeyEvent.VK_C) {
+            Random rand = new Random();
+            List<List<Node>> ssc = panel.getKosaraju().getSSC();
+            new Thread(() -> {
+                try {
+                    for(var line : ssc) {
+                        float r = rand.nextFloat();
+                        float g = rand.nextFloat();
+                        float b = rand.nextFloat();
+                        Color randomColor = new Color(r, g, b);
+                        for(var node : line) {
+                            node.setNodeColor(randomColor);
+                        }
+                    }
+                    panel.repaint();
+                    Thread.sleep(100);
+                    for(var node : panel.getGraph().getNodeList()) {
+                        node.unhighlight();
+                    }
+
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+            }).start();
         }
         /*for(var node : panel.getGraph().getNodeList())
         {

@@ -130,4 +130,8 @@ public class Node {
     public void rootColor() {
         this.nodeColor = rootColor;
     }
+
+    public void setNodeColor(Color color) {
+        this.nodeColor = color;
+    }
 }

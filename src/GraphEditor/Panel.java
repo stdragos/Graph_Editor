@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
+import GraphEditor.algorithms.Kosaraju;
 import GraphEditor.algorithms.RootFinder;
 import GraphEditor.utils.Graph;
 import GraphEditor.algorithms.DFS;
@@ -18,6 +19,7 @@ public class Panel extends JPanel {
     TopologicalSort topologicalSort;
     DFS dfs;
     RootFinder rootFinder;
+    Kosaraju kosaraju;
 
     private boolean directedUndirectedgraph = false;
     Point pointStart;
@@ -43,6 +45,7 @@ public class Panel extends JPanel {
         topologicalSort = new TopologicalSort(graph);
         dfs = new DFS(graph, this);
         rootFinder = new RootFinder(graph, this);
+        kosaraju = new Kosaraju(graph, this);
     }
 
     public boolean isDragging() {
@@ -132,5 +135,9 @@ public class Panel extends JPanel {
 
     public RootFinder getRootFinder() {
         return rootFinder;
+    }
+
+    public Kosaraju getKosaraju() {
+        return kosaraju;
     }
 }

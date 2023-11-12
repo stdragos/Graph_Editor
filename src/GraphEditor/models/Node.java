@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Node {
     private int coordX;
@@ -111,9 +112,9 @@ public class Node {
         g.setColor(Color.black);
 
         //circle center : coordX + node_diam / 2, coordY + node_diam / 2
-        int numberLen = numberToPrint.length() * 10;
+        int numberLen = numberToPrint.length() * 8;
         int startingX = coordX + node_diam / 2 - numberLen / 2;
-        int startingY = coordY + node_diam / 2;
+        int startingY = coordY + node_diam / 2 + 5;
         g.drawString(numberToPrint, startingX, startingY);
     }
 
@@ -146,8 +147,13 @@ public class Node {
     }
 
     public void addNumberToPrint(int number) {
-        this.numberToPrint +=" " + number;
+        if(Objects.equals(this.numberToPrint, "")) {
+            this.numberToPrint += number;
+        } else {
+            this.numberToPrint += "," + number;
+        }
         numbersHeld.add(number);
+
     }
 
     public void setNumberToPrint(String numberToPrint) {

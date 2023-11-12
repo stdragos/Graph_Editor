@@ -33,8 +33,8 @@ public class DFS {
                     foundNeighbour = true;
                     if(draw) {
                         for(var edge : graph.getEdgeList()) {
-                            if(edge.getStartNode() == top && edge.getEndNode() == neigh) {
-
+                            if(edge.getStartNode() == top && edge.getEndNode() == neigh ||
+                                    (!graph.isDirected() && edge.getStartNode() == neigh && edge.getEndNode() == top)) {
                                 edge.highlightEdge();
                                 panel.repaint();
                                 Thread.sleep(500);
@@ -53,6 +53,7 @@ public class DFS {
             paths.add(top);
             toVisit.pop();
         }
+
         return paths;
     }
 

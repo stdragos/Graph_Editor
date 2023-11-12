@@ -41,7 +41,19 @@ public class KeyboardListener implements KeyListener {
             else {
                 for(var node1 : panel.getGraph().getNodeList()) {
                     for(var node2 : node1.getAdjacencyList()) {
-                        edgeList.add(new Edge(node1, node2));
+                        boolean existsOrReverse = false;
+                        for(var edge : edgeList) {
+                            if(edge.getStartNode() == node1 && edge.getEndNode() == node2) {
+                                existsOrReverse = true;
+                                break;
+                            }
+                            if(edge.getStartNode() == node2 && edge.getEndNode() == node1) {
+                                existsOrReverse = true;
+                                break;
+                            }
+                        }
+                        if(!existsOrReverse)
+                            edgeList.add(new Edge(node1, node2));
                         if(!node2.getAdjacencyList().contains(node1)) {
                             node2.getAdjacencyList().add(node1);
                         }
@@ -197,20 +209,23 @@ public class KeyboardListener implements KeyListener {
             List<Edge> newEdgeList = new ArrayList<>();
             List<Node> newNodeList = new ArrayList<>();
 
+            int startingDiam = 20;
+            int increasingDiam = 20;
+
             int startingY = (int) (panel.getBounds().getHeight() / 2);
             int startingX = (int) (panel.getBounds().getWidth() / 2 - 100 * (ssc.size() / 2));
 
             int currSSC = 1;
 
             for(var line : ssc) {
-                newNodeList.add(new Node(startingX, startingY - (50 + 20 * line.size()) / 2, currSSC));
-                newNodeList.get(currSSC - 1).setNode_diam(50 + 20 * line.size());
+                newNodeList.add(new Node(startingX, startingY - (startingDiam + increasingDiam * line.size()) / 2, currSSC));
+                newNodeList.get(currSSC - 1).setNode_diam(startingDiam + increasingDiam * line.size());
                 newNodeList.get(currSSC - 1).setNumberToPrint("");
                 for(var node : line) {
                     newNodeList.get(currSSC - 1).addNumberToPrint(node.getNumber());
                 }
                 ++currSSC;
-                startingX += 50 + 20 * line.size() + 100;
+                startingX += startingDiam + increasingDiam * line.size() + 100;
             }
 
             for(int i = 0; i < newNodeList.size() - 1; ++i) {

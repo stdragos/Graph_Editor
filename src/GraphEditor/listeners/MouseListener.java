@@ -73,14 +73,6 @@ public class MouseListener implements javax.swing.event.MouseInputListener {
                 panel.getGraph().addNode(e.getX(), e.getY());
             }
         }
-        /*for(var node : panel.getGraph().getNodeList())
-        {
-            System.out.print(node.getNumber() + ":: ");
-            for (var node2 : node.getAdjacencyList())
-                System.out.print(node2.getNumber() + " ");
-            System.out.println();
-        }
-        System.out.println();*/
         panel.repaint();
     }
 

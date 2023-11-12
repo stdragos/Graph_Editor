@@ -95,7 +95,6 @@ public class KeyboardListener implements KeyListener {
             if(panel.mouseListener.getStart() != null){
                 new Thread(() -> {
                     try {
-                        //Node start = new Node(panel.mouseListener.getStart());
                         panel.getDfs().dfs(panel.mouseListener.getStart(), true);
                     } catch (InterruptedException ex) {
                         throw new RuntimeException(ex);
@@ -134,7 +133,6 @@ public class KeyboardListener implements KeyListener {
                     if(panel.getGraph().dfs.isAcyclic(false))
                     {
                         if(panel.getGraph().dfs.isQuasiStronglyConn()) {
-                            /*System.out.println("test");*/
                             root = panel.getRootFinder().identifyRoot();
                             if(root != null) {
                                 root.rootColor();
@@ -247,14 +245,6 @@ public class KeyboardListener implements KeyListener {
             panel.getGraph().setNodeList(newNodeList);
             panel.repaint();
         }
-        /*for(var node : panel.getGraph().getNodeList())
-        {
-            System.out.print(node.getNumber() + ":: ");
-            for (var node2 : node.getAdjacencyList())
-                System.out.print(node2.getNumber() + " ");
-            System.out.println();
-        }
-        System.out.println();*/
         panel.repaint();
     }
 

@@ -16,7 +16,6 @@ public class DFS {
     }
 
     public List<Node> dfs(Node root, boolean draw) throws InterruptedException {
-        //returns DFS from root
         List<Node> paths = new ArrayList<>();
         List<Boolean> visited = new ArrayList<Boolean>(Collections.nCopies(graph.getNodeList().size(), false));
 
@@ -98,14 +97,10 @@ public class DFS {
     public boolean isQuasiStronglyConn() throws InterruptedException {
         for(var node : graph.getNodeList()) {
             List<Node> path = dfs(node, false);
-            /*System.out.print(path.size());
-            System.out.println(graph.getNodeList().size());
-*/
             if (path.size() == graph.getNodeList().size()) {
                 return true;
             }
         }
-
         return false;
     }
 

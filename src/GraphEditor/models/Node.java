@@ -110,8 +110,7 @@ public class Node {
         g.drawOval(coordX, coordY, node_diam, node_diam);
         g.setColor(Color.black);
 
-        //centru cerc coordX + node_diam / 2, coordY + node_diam / 2
-        //g.drawString(numberToPrint, coordX + node_diam / 2, coordY + node_diam / 2);
+        //circle center : coordX + node_diam / 2, coordY + node_diam / 2
         int numberLen = numberToPrint.length() * 10;
         int startingX = coordX + node_diam / 2 - numberLen / 2;
         int startingY = coordY + node_diam / 2;

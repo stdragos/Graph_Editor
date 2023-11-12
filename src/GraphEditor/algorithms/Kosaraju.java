@@ -67,11 +67,13 @@ public class Kosaraju {
         transposeAdjacency();
         visited.clear();
         visited = new ArrayList<>(Collections.nCopies(graph.getNodeList().size(), false));
-        int currentSCC = 0;
+        int currentSCC = -1;
 
         while(!commonStack.isEmpty()) {
                 List<Node> tmp = new ArrayList<>();
                 SCC.add(tmp);
+
+                ++currentSCC;
 
                 Node commonTop = commonStack.peek();
                 commonStack.pop();
@@ -96,9 +98,15 @@ public class Kosaraju {
                         SCC.get(currentSCC).add(top);
                         frontier.pop();
                     }
-                    ++currentSCC;
+
             }
 
+        }
+        for(int i = 0; i < SCC.size(); ++i) {
+            if(SCC.get(i).isEmpty()) {
+                SCC.remove(i);
+                --i;
+            }
         }
         return SCC;
     }

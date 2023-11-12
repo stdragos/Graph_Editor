@@ -158,10 +158,19 @@ public class KeyboardListener implements KeyListener {
         }
 
         if(e.getKeyCode() == KeyEvent.VK_C) {
-            Random rand = new Random();
-            List<List<Node>> ssc = panel.getKosaraju().getSSC();
+            panel.mouseListener.setHighlightedNode(-1);
+            panel.mouseListener.setStart(null);
+
             new Thread(() -> {
                 try {
+                    Random rand = new Random();
+                    if(panel.getGraph().isDirected()) {
+                        panel.getGraph().nodeBlinkError();
+                        return;
+                    }
+
+                    List<List<Node>> ssc = panel.getDfs().connectedComponents();
+
                     for(var line : ssc) {
                         float r = rand.nextFloat();
                         float g = rand.nextFloat();
@@ -182,6 +191,61 @@ public class KeyboardListener implements KeyListener {
                 }
 
             }).start();
+        }
+
+        if(e.getKeyCode() == KeyEvent.VK_X) {
+            List<List<Node>> ssc = panel.getKosaraju().getSSC();
+
+            List<Edge> newEdgeList = new ArrayList<>();
+            List<Node> newNodeList = new ArrayList<>();
+
+            int startingY = (int) (panel.getBounds().getHeight() / 2);
+            int startingX = (int) (panel.getBounds().getWidth() / 2 - 100 * (ssc.size() / 2));
+
+            int currSSC = 1;
+
+            for(var line : ssc) {
+                newNodeList.add(new Node(startingX, startingY - (50 + 20 * line.size()) / 2, currSSC));
+                newNodeList.get(currSSC - 1).setNode_diam(50 + 20 * line.size());
+                newNodeList.get(currSSC - 1).setNumberToPrint("");
+                for(var node : line) {
+                    newNodeList.get(currSSC - 1).addNumberToPrint(node.getNumber());
+                }
+                ++currSSC;
+                startingX += 50 + 20 * line.size() + 100;
+            }
+
+            for(int i = 0; i < newNodeList.size() - 1; ++i) {
+                for(int j = i + 1; j < newNodeList.size(); ++j) {
+                    boolean addedEdge = false;
+                    for(var node1 : newNodeList.get(i).getNumbersHeld()) {
+                        for(var node2 : newNodeList.get(j).getNumbersHeld()) {
+                            for(var edge : panel.getGraph().getEdgeList()) {
+                                if(edge.getStartNode().getNumber() == node1 &&
+                                        edge.getEndNode().getNumber() == node2) {
+                                    newEdgeList.add(new Edge(newNodeList.get(i), newNodeList.get(j)));
+                                    addedEdge = true;
+                                    break;
+                                }
+                                if(edge.getStartNode().getNumber() == node2 &&
+                                        edge.getEndNode().getNumber() == node1) {
+                                    newEdgeList.add(new Edge(newNodeList.get(j), newNodeList.get(i)));
+                                    addedEdge = true;
+                                    break;
+                                }
+                            }
+                            if(addedEdge)
+                                break;
+                        }
+                        if(addedEdge)
+                            break;
+                    }
+                }
+            }
+
+            panel.getGraph().setEdgeList(newEdgeList);
+            panel.getGraph().setNodeList(newNodeList);
+            panel.repaint();
         }
         /*for(var node : panel.getGraph().getNodeList())
         {

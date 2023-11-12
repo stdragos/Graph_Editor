@@ -87,25 +87,7 @@ public class DFS {
 
         if(paint) {
             try {
-                for(var nodes : graph.getNodeList()) {
-                    nodes.good();
-                }
-                panel.repaint();
-                Thread.sleep(500);
-                for(var nodes : graph.getNodeList()) {
-                    nodes.unhighlight();
-                }
-                panel.repaint();
-                Thread.sleep(500);
-                for(var nodes : graph.getNodeList()) {
-                    nodes.good();
-                }
-                panel.repaint();
-                Thread.sleep(500);
-                for(var nodes : graph.getNodeList()) {
-                    nodes.unhighlight();
-                }
-                panel.repaint();
+                graph.nodeBlinkGood();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -125,5 +107,42 @@ public class DFS {
         }
 
         return false;
+    }
+
+    public List<List<Node>> connectedComponents() {
+        List<List<Node>> CC = new ArrayList<>();
+        List<Boolean> visited = new ArrayList<Boolean>(Collections.nCopies(graph.getNodeList().size(), false));
+        Stack<Node> frontier = new Stack<>();
+        int currentCC = 0;
+        for(var node : graph.getNodeList()) {
+            if(!visited.get(node.getNumber() - 1)) {
+                frontier.push(node);
+                visited.set(node.getNumber() - 1, true);
+
+                List<Node> tmp = new ArrayList<>();
+                CC.add(tmp);
+
+                while(!frontier.isEmpty()) {
+                    Node top = frontier.peek();
+                    boolean foundNeighbour = false;
+                    for(var neigh : top.getAdjacencyList()) {
+                        if(!visited.get(neigh.getNumber() - 1)) {
+                            frontier.push(neigh);
+                            visited.set(neigh.getNumber() - 1, true);
+                            foundNeighbour = true;
+                            break;
+                        }
+                    }
+                    if(foundNeighbour)
+                        continue;
+
+                    CC.get(currentCC).add(top);
+                    frontier.pop();
+
+                }
+                ++currentCC;
+            }
+        }
+        return CC;
     }
 }

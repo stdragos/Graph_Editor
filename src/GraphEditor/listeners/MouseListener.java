@@ -40,7 +40,7 @@ public class MouseListener implements javax.swing.event.MouseInputListener {
         if(!isDragging)
         {
             for (var node : panel.getGraph().getNodeList()) {
-                if (node.getDistance(new Point(e.getPoint().x - node_diam / 4, e.getPoint().y - node_diam / 4)) < node_diam - 5) {
+                if (node.getDistance(new Point(e.getPoint().x - node.getNode_diam() / 4, e.getPoint().y - node.getNode_diam() / 4)) < node.getNode_diam() - 5) {
                     clickedOnNode = true;
                     whichNode = node.getNumber();
                 }
@@ -111,7 +111,7 @@ public class MouseListener implements javax.swing.event.MouseInputListener {
 
            for(var node : panel.getGraph().getNodeList()) {
                 if(node != start &&
-                        node.getDistance(new Point(e.getX() - start.getNode_diam() / 2, e.getY() - start.getNode_diam() / 2)) < node_diam){
+                        node.getDistance(new Point(e.getX() - start.getNode_diam() / 2, e.getY() - start.getNode_diam() / 2)) < start.getNode_diam()){
 
                     double x = e.getX() - node.getCoordX() - start.getNode_diam() / 2;
                     double y = e.getY() - node.getCoordY() - start.getNode_diam() / 2;
@@ -125,14 +125,14 @@ public class MouseListener implements javax.swing.event.MouseInputListener {
 
                     double ipoLen = Math.sqrt(x * x + y * y);
 
-                    int newX = (int) (node.getCoordX() + x / ipoLen * (node_diam));
-                    int newY = (int) (node.getCoordY() + y / ipoLen * (node_diam));
+                    int newX = (int) (node.getCoordX() + x / ipoLen * (start.getNode_diam()));
+                    int newY = (int) (node.getCoordY() + y / ipoLen * (start.getNode_diam()));
 
                     //verify if not overlapping
                     for(var node2 : panel.getGraph().getNodeList()) {
                         if(node2!=start) {
                             if(node2!=node) {
-                                if(node2.getDistance(new Point(newX, newY)) < node_diam)
+                                if(node2.getDistance(new Point(newX, newY)) < start.getNode_diam())
                                 {
                                     return;
                                 }

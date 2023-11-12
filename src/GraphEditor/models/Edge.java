@@ -45,9 +45,9 @@ public class Edge {
         if(directed)
         {
             g2d.setColor(edgeColor);
-            arrowHead.addPoint(10 + lineLength - startNode.getNode_diam() / 2 - 5, 0);
-            arrowHead.addPoint(-10 + lineLength - startNode.getNode_diam() / 2 - 5, -10);
-            arrowHead.addPoint(-10 + lineLength - startNode.getNode_diam() / 2 - 5, 10);
+            arrowHead.addPoint(10 + lineLength - endNode.getNode_diam() / 2 - 5, 0);
+            arrowHead.addPoint(-10 + lineLength - endNode.getNode_diam() / 2 - 5, -10);
+            arrowHead.addPoint(-10 + lineLength - endNode.getNode_diam() / 2 - 5, 10);
             g2d.fill(arrowHead);
         }
 

@@ -10,6 +10,9 @@ public class Node {
     private int coordY;
     private int number;
 
+    private String numberToPrint = "";
+    private List<Integer> numbersHeld = new ArrayList<>();
+
     private Node parent = null;
 
     private List<Node> adjacencyList;
@@ -26,6 +29,7 @@ public class Node {
         this.coordY = coordY;
         this.number = number;
         this.adjacencyList = new ArrayList<>();
+        this.numberToPrint += number;
     }
 
     public int getCoordX() {
@@ -105,10 +109,13 @@ public class Node {
         g.setColor(Color.black);
         g.drawOval(coordX, coordY, node_diam, node_diam);
         g.setColor(Color.black);
-        if(this.number < 10)
-            g.drawString(((Integer)this.number).toString(), coordX+12, coordY + 20);
-        else
-            g.drawString(((Integer)this.number).toString(), coordX+8, coordY + 20);
+
+        //centru cerc coordX + node_diam / 2, coordY + node_diam / 2
+        //g.drawString(numberToPrint, coordX + node_diam / 2, coordY + node_diam / 2);
+        int numberLen = numberToPrint.length() * 10;
+        int startingX = coordX + node_diam / 2 - numberLen / 2;
+        int startingY = coordY + node_diam / 2;
+        g.drawString(numberToPrint, startingX, startingY);
     }
 
     public List<Node> getAdjacencyList() {
@@ -133,5 +140,23 @@ public class Node {
 
     public void setNodeColor(Color color) {
         this.nodeColor = color;
+    }
+
+    public void setNode_diam(int node_diam) {
+        this.node_diam = node_diam;
+    }
+
+    public void addNumberToPrint(int number) {
+        this.numberToPrint +=" " + number;
+        numbersHeld.add(number);
+    }
+
+    public void setNumberToPrint(String numberToPrint) {
+        this.numberToPrint = numberToPrint;
+
+    }
+
+    public List<Integer> getNumbersHeld() {
+        return numbersHeld;
     }
 }

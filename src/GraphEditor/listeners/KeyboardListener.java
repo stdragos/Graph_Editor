@@ -290,6 +290,13 @@ public class KeyboardListener implements KeyListener {
             panel.getGraph().setNodeList(newNodeList);
             panel.repaint();
         }
+
+        if(e.getKeyCode() == KeyEvent.VK_DELETE) {
+            panel.resetGraph();
+            panel.mouseListener.setHighlightedNode(-1);
+            panel.mouseListener.setStart(null);
+        }
+
         panel.repaint();
     }
 

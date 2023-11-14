@@ -130,6 +130,14 @@ public class Panel extends JPanel {
         }
     }
 
+    public void resetGraph() {
+        graph = new Graph(this);
+        topologicalSort = new TopologicalSort(graph);
+        dfs = new DFS(graph, this);
+        rootFinder = new RootFinder(graph, this);
+        kosaraju = new Kosaraju(graph, this);
+    }
+
     public DFS getDfs() {
         return dfs;
     }

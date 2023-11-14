@@ -21,11 +21,11 @@ public class Node {
     private Color nodeColor = new Color(169, 169, 169);
     private final Color highlightColor =  new Color(13, 135, 222);
     private final Color basicColor = new Color(169, 169, 169);
-    private final Color rootColor = new Color(164, 43, 201);
+    private final Color rootColor = new Color(255, 147, 0);
 
     Color currBorderColor = Color.black;
     Color basicBorderColor = Color.black;
-    Color highlightBorderColor = new Color(130, 13, 75);
+    Color highlightBorderColor = new Color(118, 67, 197);
     int borderSize = 1;
     private int node_diam = 30;
 

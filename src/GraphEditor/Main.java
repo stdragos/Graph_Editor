@@ -7,7 +7,7 @@ public class Main {
 
     private static void initUI() {
 
-        JFrame frame = new JFrame("Graph Paint");
+        JFrame frame = new JFrame("Graph Editor");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(new Panel());
         frame.setSize(1000,600);

@@ -25,6 +25,10 @@ public class KeyboardListener implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
+        if(panel.workingThread) {
+            return;
+        }
+
         if(e.getKeyCode() == KeyEvent.VK_SPACE) {
             panel.getGraph().setDirected(!panel.getGraph().isDirected());
 
@@ -64,9 +68,12 @@ public class KeyboardListener implements KeyListener {
 
         if(e.getKeyCode() == KeyEvent.VK_A) {
             new Thread(() -> {
+                panel.workingThread = true;
                 panel.getGraph().dfs.isAcyclic(true);
                 panel.mouseListener.setStart(null);
                 panel.mouseListener.setHighlightedNode(-1);
+
+                panel.workingThread = false;
             }).start();
 
         }
@@ -74,6 +81,7 @@ public class KeyboardListener implements KeyListener {
         if(e.getKeyCode() == KeyEvent.VK_T) {
 
             new Thread(() -> {
+                panel.workingThread = true;
                 List<Node> sol = new ArrayList<>();
                 if (panel.getDfs().isAcyclic(true)) {
                     sol = panel.getTopologicalSort().topologicalSort();
@@ -100,18 +108,26 @@ public class KeyboardListener implements KeyListener {
                 }
                 panel.mouseListener.setStart(null);
                 panel.mouseListener.setHighlightedNode(-1);
+
+                panel.workingThread = false;
             }).start();
+
         }
 
         if(e.getKeyCode() == KeyEvent.VK_D) {
             if(panel.mouseListener.getStart() != null){
                 new Thread(() -> {
+                    panel.workingThread = true;
                     try {
                         panel.getDfs().dfs(panel.mouseListener.getStart(), true);
                     } catch (InterruptedException ex) {
                         throw new RuntimeException(ex);
                     }
+
+                    panel.workingThread = false;
                 }).start();
+
+
             }
         }
 
@@ -140,30 +156,35 @@ public class KeyboardListener implements KeyListener {
             if(!panel.getGraph().getNodeList().isEmpty())
             {
                 new Thread(()->{
-                try {
-                    Node root = null;
-                    if(panel.getGraph().dfs.isAcyclic(false))
-                    {
-                        if(panel.getGraph().dfs.isQuasiStronglyConn()) {
-                            root = panel.getRootFinder().identifyRoot();
-                            if(root != null) {
-                                root.rootColor();
-                                panel.repaint();
-                                Thread.sleep(1500);
-                                root.unhighlight();
-                                panel.repaint();
+                    panel.workingThread = true;
+                    try {
+                        Node root = null;
+                        if(panel.getGraph().dfs.isAcyclic(false))
+                        {
+                            if(panel.getGraph().dfs.isQuasiStronglyConn()) {
+                                root = panel.getRootFinder().identifyRoot();
+                                if(root != null) {
+                                    root.rootColor();
+                                    panel.repaint();
+                                    Thread.sleep(1500);
+                                    root.unhighlight();
+                                    panel.repaint();
+                                } else {
+                                    panel.getGraph().nodeBlinkError();
+                                }
                             } else {
                                 panel.getGraph().nodeBlinkError();
                             }
-                        } else {
+                        } else{
                             panel.getGraph().nodeBlinkError();
                         }
-                    } else{
-                        panel.getGraph().nodeBlinkError();
-                    }
-                } catch (InterruptedException ex) {
-                    throw new RuntimeException(ex);
-                }}).start();
+                    } catch (InterruptedException ex) {
+                        throw new RuntimeException(ex);
+                }
+                    panel.workingThread = false;
+                }).start();
+
+
             }
         }
 
@@ -172,10 +193,12 @@ public class KeyboardListener implements KeyListener {
             panel.mouseListener.setStart(null);
 
             new Thread(() -> {
+                panel.workingThread = true;
                 try {
                     Random rand = new Random();
                     if(panel.getGraph().isDirected()) {
                         panel.getGraph().nodeBlinkError();
+                        panel.workingThread = false;
                         return;
                     }
 
@@ -189,8 +212,10 @@ public class KeyboardListener implements KeyListener {
                         for(var node : line) {
                             node.setNodeColor(randomColor);
                         }
+                        panel.repaint();
+                        Thread.sleep(500);
                     }
-                    panel.repaint();
+
                     Thread.sleep(100);
                     for(var node : panel.getGraph().getNodeList()) {
                         node.unhighlight();
@@ -199,11 +224,16 @@ public class KeyboardListener implements KeyListener {
                 } catch (InterruptedException ex) {
                     throw new RuntimeException(ex);
                 }
-
+                panel.workingThread = false;
             }).start();
+
+
         }
 
         if(e.getKeyCode() == KeyEvent.VK_X) {
+            panel.mouseListener.setHighlightedNode(-1);
+            panel.mouseListener.setStart(null);
+
             List<List<Node>> ssc = panel.getKosaraju().getSSC();
 
             List<Edge> newEdgeList = new ArrayList<>();

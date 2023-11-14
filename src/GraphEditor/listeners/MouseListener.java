@@ -24,6 +24,10 @@ public class MouseListener implements javax.swing.event.MouseInputListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        if(panel.workingThread) {
+            return;
+        }
+
         panel.setFocusable(true);
         panel.requestFocusInWindow();
         panel.setPointStart(e.getPoint());
@@ -31,6 +35,10 @@ public class MouseListener implements javax.swing.event.MouseInputListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
+        if(panel.workingThread) {
+            return;
+        }
+
         panel.setFocusable(true);
         panel.requestFocusInWindow();
 
@@ -78,6 +86,9 @@ public class MouseListener implements javax.swing.event.MouseInputListener {
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        if(panel.workingThread) {
+            return;
+        }
         isDragging = false;
     }
 
@@ -93,6 +104,10 @@ public class MouseListener implements javax.swing.event.MouseInputListener {
 
     @Override
     public void mouseDragged(MouseEvent e) {
+        if(panel.workingThread) {
+            return;
+        }
+
         if(start != null && !isDragging && start.getNumber() == highlightedNode){
             if(start.getDistance(e.getPoint()) < start.getNode_diam()) {
                 isDragging = true;
@@ -103,10 +118,10 @@ public class MouseListener implements javax.swing.event.MouseInputListener {
 
            for(var node : panel.getGraph().getNodeList()) {
                 if(node != start &&
-                        node.getDistance(new Point(e.getX() - start.getNode_diam() / 2, e.getY() - start.getNode_diam() / 2)) < start.getNode_diam()){
+                        node.getDistance(new Point(e.getX() - node.getNode_diam() / 2, e.getY() - node.getNode_diam() / 2)) < node.getNode_diam()){
 
-                    double x = e.getX() - node.getCoordX() - start.getNode_diam() / 2;
-                    double y = e.getY() - node.getCoordY() - start.getNode_diam() / 2;
+                    double x = e.getX() - node.getCoordX() - node.getNode_diam() / 2;
+                    double y = e.getY() - node.getCoordY() - node.getNode_diam() / 2;
 
                     if(x == 0) {
                         x = 1;
@@ -117,14 +132,14 @@ public class MouseListener implements javax.swing.event.MouseInputListener {
 
                     double ipoLen = Math.sqrt(x * x + y * y);
 
-                    int newX = (int) (node.getCoordX() + x / ipoLen * (start.getNode_diam()));
-                    int newY = (int) (node.getCoordY() + y / ipoLen * (start.getNode_diam()));
+                    int newX = (int) (node.getCoordX() + x / ipoLen * (node.getNode_diam()));
+                    int newY = (int) (node.getCoordY() + y / ipoLen * (node.getNode_diam()));
 
                     //verify if not overlapping
                     for(var node2 : panel.getGraph().getNodeList()) {
                         if(node2!=start) {
                             if(node2!=node) {
-                                if(node2.getDistance(new Point(newX, newY)) < start.getNode_diam())
+                                if(node2.getDistance(new Point(newX, newY)) < node2.getNode_diam())
                                 {
                                     return;
                                 }

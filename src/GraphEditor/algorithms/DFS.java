@@ -22,6 +22,10 @@ public class DFS {
         Stack<Node> toVisit = new Stack<>();
         visited.set(root.getNumber() - 1, true);
 
+        root.setHighlightDFS();
+        panel.repaint();
+        Thread.sleep(500);
+
         toVisit.push(root);
         while(!toVisit.isEmpty()) {
             Node top = toVisit.peek();
@@ -30,6 +34,7 @@ public class DFS {
                 if(!visited.get(neigh.getNumber() - 1)) {
                     toVisit.push(neigh);
                     visited.set(neigh.getNumber() - 1, true);
+                    neigh.setHighlightDFS();
                     foundNeighbour = true;
                     if(draw) {
                         for(var edge : graph.getEdgeList()) {
@@ -54,6 +59,8 @@ public class DFS {
             toVisit.pop();
         }
 
+        for(var node : graph.getNodeList())
+            node.resetHighlightDFS();
         return paths;
     }
 

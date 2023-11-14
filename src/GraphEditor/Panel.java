@@ -27,6 +27,7 @@ public class Panel extends JPanel {
     boolean isDragging;
     boolean isDraggingNode;
     Node whichNodeIsMoving;
+    public volatile boolean workingThread = false;
 
 
     public MouseListener mouseListener;

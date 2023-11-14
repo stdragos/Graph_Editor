@@ -23,6 +23,10 @@ public class Node {
     private final Color basicColor = new Color(169, 169, 169);
     private final Color rootColor = new Color(164, 43, 201);
 
+    Color currBorderColor = Color.black;
+    Color basicBorderColor = Color.black;
+    Color highlightBorderColor = new Color(130, 13, 75);
+    int borderSize = 1;
     private int node_diam = 30;
 
     public Node(int coordX, int coordY, int number) {
@@ -103,19 +107,23 @@ public class Node {
     }
 
     public void drawNode(Graphics g) {
-        g.setColor(nodeColor);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setColor(nodeColor);
         Font font = new Font("Arial", Font.BOLD, 15);
-        g.setFont(font);
-        g.fillOval(coordX, coordY, node_diam, node_diam);
-        g.setColor(Color.black);
-        g.drawOval(coordX, coordY, node_diam, node_diam);
-        g.setColor(Color.black);
+        g2d.setFont(font);
+        g2d.fillOval(coordX, coordY, node_diam, node_diam);
 
+        g2d.setStroke(new BasicStroke(borderSize));
+        g2d.setColor(currBorderColor);
+        g2d.drawOval(coordX, coordY, node_diam, node_diam);
+        g2d.setStroke(new BasicStroke(1));
+
+        g2d.setColor(Color.black);
         //circle center : coordX + node_diam / 2, coordY + node_diam / 2
         int numberLen = numberToPrint.length() * 8;
         int startingX = coordX + node_diam / 2 - numberLen / 2;
         int startingY = coordY + node_diam / 2 + 5;
-        g.drawString(numberToPrint, startingX, startingY);
+        g2d.drawString(numberToPrint, startingX, startingY);
     }
 
     public List<Node> getAdjacencyList() {
@@ -161,6 +169,15 @@ public class Node {
 
     }
 
+    public void setHighlightDFS() {
+        borderSize = 4;
+        currBorderColor = highlightBorderColor;
+    }
+
+    public void resetHighlightDFS() {
+        borderSize = 1;
+        currBorderColor = basicBorderColor;
+    }
     public List<Integer> getNumbersHeld() {
         return numbersHeld;
     }

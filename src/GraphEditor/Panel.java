@@ -23,6 +23,10 @@ public class Panel extends JPanel {
     Kosaraju kosaraju;
 
     private boolean directedUndirectedgraph = false;
+
+    private boolean modifyingWeights = false;
+    private Edge selectedEdge = null;
+
     Point pointStart;
     Point pointEnd;
     boolean isDragging;
@@ -151,5 +155,21 @@ public class Panel extends JPanel {
 
     public Kosaraju getKosaraju() {
         return kosaraju;
+    }
+
+    public boolean getModifyingWeights() {
+        return this.modifyingWeights;
+    }
+
+    public void setModifyingWeights(boolean modifyingWeights) {
+        this.modifyingWeights = modifyingWeights;
+    }
+
+    public Edge getSelectedEdge() {
+        return selectedEdge;
+    }
+
+    public void setSelectedEdge(Edge selectedEdge) {
+        this.selectedEdge = selectedEdge;
     }
 }

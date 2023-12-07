@@ -10,6 +10,9 @@ public class Edge {
 
     private boolean directed = false;
 
+    private int weight = 0;
+    private boolean showWeight = false;
+
     private final Color highlightColor =  new Color(255, 0, 0);
     private final Color basicColor = new Color(147, 216, 15);
     private Color edgeColor =   basicColor;
@@ -41,13 +44,24 @@ public class Edge {
 
         g2d.drawLine(0, 0, lineLength, 0);
 
-        if(directed)
-        {
+        if(directed) {
             g2d.setColor(edgeColor);
             arrowHead.addPoint(10 + lineLength - endNode.getNode_diam() / 2 - 7, 0);
             arrowHead.addPoint(-10 + lineLength - endNode.getNode_diam() / 2 - 7, -8);
             arrowHead.addPoint(-10 + lineLength - endNode.getNode_diam() / 2 - 7, 8);
             g2d.fill(arrowHead);
+        }
+
+        g2d.setTransform(initAT);
+
+        affineTransform = AffineTransform.getTranslateInstance(A.x, A.y);
+        g2d.setTransform(affineTransform);
+
+        if(showWeight) {
+            g2d.setColor(Color.black);
+            Font font = new Font("Arial", Font.BOLD, 20);
+            g2d.setFont(font);
+            g2d.drawString(String.valueOf(weight), (B.x - A.x) / 2, (B.y - A.y) / 2);
         }
 
         g2d.setTransform(initAT);
@@ -86,5 +100,17 @@ public class Edge {
 
     public void unhighlightEdge() {
         this.edgeColor = this.basicColor;
+    }
+
+    public void setShowWeight(boolean showWeight) {
+        this.showWeight = showWeight;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
     }
 }

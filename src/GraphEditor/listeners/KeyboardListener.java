@@ -139,7 +139,7 @@ public class KeyboardListener implements KeyListener {
             }
         }
 
-        if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+        if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE && !panel.getModifyingWeights()) {
             if(panel.mouseListener.getStart() != null) {
                 panel.getGraph().removeNode(panel.mouseListener.getStart());
                 panel.mouseListener.setHighlightedNode(-1);
@@ -228,6 +228,20 @@ public class KeyboardListener implements KeyListener {
 
         }
 
+        if(e.getKeyCode() == KeyEvent.VK_W)
+        {
+            panel.setModifyingWeights(!panel.getModifyingWeights());
+            for(var edge : panel.getGraph().getEdgeList()) {
+                edge.setShowWeight(panel.getModifyingWeights());
+            }
+            if(!panel.getModifyingWeights()) {
+                if(panel.getSelectedEdge() != null) {
+                    panel.getSelectedEdge().unhighlightEdge();
+                    panel.setSelectedEdge(null);
+                }
+            }
+        }
+
         if(e.getKeyCode() == KeyEvent.VK_X) {
             panel.mouseListener.setHighlightedNode(-1);
             panel.mouseListener.setStart(null);
@@ -295,6 +309,15 @@ public class KeyboardListener implements KeyListener {
             panel.mouseListener.setStart(null);
         }
 
+        if(Character.isDigit(e.getKeyCode())) {
+            if(panel.getSelectedEdge() != null) {
+                 panel.getSelectedEdge().setWeight(panel.getSelectedEdge().getWeight() * 10 + (e.getKeyCode() - '0'));
+            }
+        }
+
+        if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE && panel.getSelectedEdge() != null) {
+            panel.getSelectedEdge().setWeight(panel.getSelectedEdge().getWeight() / 10);
+        }
         panel.repaint();
     }
 

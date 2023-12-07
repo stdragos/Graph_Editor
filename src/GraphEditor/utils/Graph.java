@@ -81,6 +81,7 @@ public class Graph {
         for(int i = 0; i < nodeList.size(); ++i) {
             if(nodeList.get(i).getNumber() != i + 1) {
                 nodeList.get(i).setNumber(i + 1);
+                nodeList.get(i).setNumberToPrint(String.valueOf(i+1));
             }
         }
     }

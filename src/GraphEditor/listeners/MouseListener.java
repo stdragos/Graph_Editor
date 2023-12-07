@@ -30,6 +30,7 @@ public class MouseListener implements javax.swing.event.MouseInputListener {
 
         panel.setFocusable(true);
         panel.requestFocusInWindow();
+
         panel.setPointStart(e.getPoint());
     }
 
@@ -64,8 +65,28 @@ public class MouseListener implements javax.swing.event.MouseInputListener {
                     start = null;
                     highlightedNode = -1;
                 } else {
-                    if(!panel.getGraph().addEdge(highlightedNode, whichNode)){
+                    if(!panel.getModifyingWeights() && !panel.getGraph().addEdge(highlightedNode, whichNode)){
                         panel.getGraph().removeEdge(highlightedNode, whichNode);
+                    }
+                    if(panel.getModifyingWeights()) {
+                        if(panel.getSelectedEdge() == null) {
+                            for (var edge : panel.getGraph().getEdgeList()) {
+                                if (edge.getStartNode().getNumber() == highlightedNode && edge.getEndNode().getNumber() == whichNode) {
+                                    panel.setSelectedEdge(edge);
+                                    edge.highlightEdge();
+                                    break;
+                                }
+                                else if (edge.getStartNode().getNumber() == whichNode && edge.getEndNode().getNumber() == highlightedNode) {
+                                    panel.setSelectedEdge(edge);
+                                    edge.highlightEdge();
+                                    break;
+                                }
+                            }
+                        }
+                        else {
+                            panel.getSelectedEdge().unhighlightEdge();
+                            panel.setSelectedEdge(null);
+                        }
                     }
                     panel.getGraph().getNodeList().get(highlightedNode - 1).unhighlight();
 

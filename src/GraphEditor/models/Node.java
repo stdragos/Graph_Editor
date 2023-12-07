@@ -21,7 +21,7 @@ public class Node {
     private Color nodeColor = new Color(169, 169, 169);
     private final Color highlightColor =  new Color(13, 135, 222);
     private final Color basicColor = new Color(169, 169, 169);
-    private final Color rootColor = new Color(255, 147, 0);
+    private final Color rootColor = new Color(151, 112, 32);
 
     Color currBorderColor = Color.black;
     Color basicBorderColor = Color.black;

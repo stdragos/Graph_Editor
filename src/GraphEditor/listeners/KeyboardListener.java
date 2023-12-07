@@ -79,7 +79,6 @@ public class KeyboardListener implements KeyListener {
         }
 
         if(e.getKeyCode() == KeyEvent.VK_T) {
-
             new Thread(() -> {
                 panel.workingThread = true;
                 List<Node> sol = new ArrayList<>();
@@ -111,7 +110,6 @@ public class KeyboardListener implements KeyListener {
 
                 panel.workingThread = false;
             }).start();
-
         }
 
         if(e.getKeyCode() == KeyEvent.VK_D) {
@@ -141,7 +139,7 @@ public class KeyboardListener implements KeyListener {
             }
         }
 
-        if(e.getKeyCode() == KeyEvent.VK_E) {
+        if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
             if(panel.mouseListener.getStart() != null) {
                 panel.getGraph().removeNode(panel.mouseListener.getStart());
                 panel.mouseListener.setHighlightedNode(-1);

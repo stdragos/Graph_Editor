@@ -71,14 +71,13 @@ public class DFS {
         List<Integer> visited = new ArrayList<Integer>(Collections.nCopies(graph.getNodeList().size(), 0));
         for(var node : graph.getNodeList()) {
             if(visited.get(node.getNumber() - 1) == 0) {
-                Stack<Node> frontier = new Stack<>();
-                frontier.push(node);
+                Queue<Node> frontier = new LinkedList<>();
+                frontier.add(node);
 
-                while(!frontier.empty()) {
-                    Node top = frontier.peek();
-                    frontier.pop();
+                while(!frontier.isEmpty()) {
+                    Node top = frontier.poll();
                     visited.set(top.getNumber() - 1, visited.get(top.getNumber() - 1) + 1);
-                    if(visited.get(top.getNumber() - 1) >= visited.size() + 2) {
+                    if(visited.get(top.getNumber() - 1) >= 2 * visited.size()) {
                         if(paint) {
                             try {
                                 graph.nodeBlinkError();
@@ -89,8 +88,7 @@ public class DFS {
                         return false;
                     }
 
-                    for(var neighbours : top.getAdjacencyList())
-                        frontier.push(neighbours);
+                    frontier.addAll(top.getAdjacencyList());
                 }
             }
         }

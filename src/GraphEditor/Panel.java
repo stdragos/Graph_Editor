@@ -14,6 +14,7 @@ import GraphEditor.listeners.MouseListener;
 import GraphEditor.models.*;
 
 public class Panel extends JPanel {
+    private final Color backgroundColor = new Color(105, 142, 112);
     private int nodeNo = 1;
     Graph graph;
     TopologicalSort topologicalSort;
@@ -38,10 +39,12 @@ public class Panel extends JPanel {
     }
 
     public Panel() {
+        this.setBackground(backgroundColor);
         this.setBorder(BorderFactory.createLineBorder(Color.black));
         this.addMouseListener(mouseListener = new MouseListener(this));
         this.addMouseMotionListener(mouseListener);
         this.addKeyListener(keyboardListener = new KeyboardListener(this));
+
         graph = new Graph(this);
         topologicalSort = new TopologicalSort(graph);
         dfs = new DFS(graph, this);

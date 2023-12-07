@@ -10,10 +10,9 @@ public class Edge {
 
     private boolean directed = false;
 
-    private Color edgeColor = new Color(216, 156, 74);
     private final Color highlightColor =  new Color(255, 0, 0);
-    private final Color basicColor = new Color(216, 156, 74);
-
+    private final Color basicColor = new Color(147, 216, 15);
+    private Color edgeColor =   basicColor;
 
     public Edge(Node startNode, Node endNode) {
         this.startNode = startNode;
@@ -36,7 +35,7 @@ public class Edge {
         Polygon arrowHead = new Polygon();
 
         g2d.setColor(edgeColor);
-        g2d.setStroke(new BasicStroke(3));
+        g2d.setStroke(new BasicStroke(5));
 
         int lineLength = (int)Point2D.distance(A.getX(), A.getY(), B.getX(), B.getY());
 
@@ -45,9 +44,9 @@ public class Edge {
         if(directed)
         {
             g2d.setColor(edgeColor);
-            arrowHead.addPoint(10 + lineLength - endNode.getNode_diam() / 2 - 5, 0);
-            arrowHead.addPoint(-10 + lineLength - endNode.getNode_diam() / 2 - 5, -10);
-            arrowHead.addPoint(-10 + lineLength - endNode.getNode_diam() / 2 - 5, 10);
+            arrowHead.addPoint(10 + lineLength - endNode.getNode_diam() / 2 - 7, 0);
+            arrowHead.addPoint(-10 + lineLength - endNode.getNode_diam() / 2 - 7, -8);
+            arrowHead.addPoint(-10 + lineLength - endNode.getNode_diam() / 2 - 7, 8);
             g2d.fill(arrowHead);
         }
 

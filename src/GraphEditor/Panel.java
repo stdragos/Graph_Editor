@@ -4,11 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
-import GraphEditor.algorithms.Kosaraju;
-import GraphEditor.algorithms.RootFinder;
+import GraphEditor.algorithms.*;
 import GraphEditor.utils.Graph;
-import GraphEditor.algorithms.DFS;
-import GraphEditor.algorithms.TopologicalSort;
 import GraphEditor.listeners.KeyboardListener;
 import GraphEditor.listeners.MouseListener;
 import GraphEditor.models.*;
@@ -21,6 +18,7 @@ public class Panel extends JPanel {
     DFS dfs;
     RootFinder rootFinder;
     Kosaraju kosaraju;
+    GenericalMinTree genericalMinTree;
 
     private boolean directedUndirectedgraph = false; // false for undirected
 
@@ -54,6 +52,7 @@ public class Panel extends JPanel {
         dfs = new DFS(graph, this);
         rootFinder = new RootFinder(graph, this);
         kosaraju = new Kosaraju(graph, this);
+        genericalMinTree = new GenericalMinTree(this, graph);
     }
 
     public boolean isDragging() {
@@ -143,6 +142,7 @@ public class Panel extends JPanel {
         dfs = new DFS(graph, this);
         rootFinder = new RootFinder(graph, this);
         kosaraju = new Kosaraju(graph, this);
+        genericalMinTree = new GenericalMinTree(this, graph);
     }
 
     public DFS getDfs() {
@@ -155,6 +155,10 @@ public class Panel extends JPanel {
 
     public Kosaraju getKosaraju() {
         return kosaraju;
+    }
+
+    public GenericalMinTree getGenericalMinTree() {
+        return genericalMinTree;
     }
 
     public boolean getModifyingWeights() {

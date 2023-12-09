@@ -349,6 +349,35 @@ public class KeyboardListener implements KeyListener {
             System.out.println(panel.getGraph().getEdgeList().size());
         }
 
+        if(e.getKeyCode() == KeyEvent.VK_M) {
+            new Thread(()-> {
+                panel.workingThread = true;
+                try {
+                    List<Edge> newEdges = panel.getGenericalMinTree().getMinTree();
+
+                    //System.out.println("lala");
+
+                    if (newEdges != null) {
+                        //System.out.println(newEdges.size());
+                        for (var edge : newEdges) {
+                            edge.highlightEdge();
+                        }
+                    }
+                    panel.repaint();
+                    Thread.sleep(500);
+
+                    for (var edge : newEdges) {
+                        edge.unhighlightEdge();
+                    }
+                    panel.repaint();
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+                panel.workingThread = false;
+            }).start();
+        }
+
         panel.repaint();
     }
 

@@ -14,7 +14,7 @@ public class GenericalMinTree {
     private Panel panel;
     private Graph graph;
 
-    GenericalMinTree(Panel panel, Graph graph) {
+    public GenericalMinTree(Panel panel, Graph graph) {
         this.panel = panel;
         this.graph = graph;
     }
@@ -31,6 +31,8 @@ public class GenericalMinTree {
             newEdges.add(tmp2);
         }
 
+
+
         for (int k = 0; k < graph.getNodeList().size() - 1; ++k) {
             int currentComponent = 0;
             for (int i = 0; i < components.size(); ++i) {
@@ -40,14 +42,71 @@ public class GenericalMinTree {
                 }
             }
 
-                Stack<Edge> currentEdges = new Stack<>();
+                Edge minEdge = new Edge(null, null);
+                minEdge.setWeight(Integer.MAX_VALUE);
+                Node fromWhichNode = null;
+
                 for(var node : components.get(currentComponent)) {
-                    //de adaugat in currentEdges edgeurile care nu leaga cu alte noduri din aceeasi componenta
-                    /*for(var entry : node.getWeightList().entrySet()) {
-                        for()
-                    }*/
+                    for(var entry : node.getWeightList().entrySet()) {
+                        Edge edge = entry.getValue();
+
+                        if(edge.getStartNode() != node) {
+                            if(!components.get(currentComponent).contains(edge.getStartNode())) {
+                                if(minEdge.getWeight() > edge.getWeight()) {
+                                    minEdge = edge;
+                                    fromWhichNode = node;
+                                }
+                            }
+                        }
+                        else {
+                            if(!components.get(currentComponent).contains(edge.getEndNode())) {
+                                if(minEdge.getWeight() > edge.getWeight()) {
+                                    minEdge = edge;
+                                    fromWhichNode = node;
+                                }
+                            }
+                        }
+                    }
                 }
 
+                if(minEdge.getStartNode() != null) {
+                    Node nodeToSearchFor = null;
+                    if (minEdge.getStartNode() != fromWhichNode)
+                        nodeToSearchFor = minEdge.getStartNode();
+                    else nodeToSearchFor = minEdge.getEndNode();
+
+                    //merge components
+                    int whichComponent = 0;
+                    for (int i = 0; i < components.size(); ++i) {
+                        if (components.get(i).contains(nodeToSearchFor)) {
+                            for (var node : components.get(i)) {
+                                components.get(currentComponent).add(node);
+                            }
+                            components.get(i).clear();
+                            whichComponent = i;
+                            break;
+                        }
+                    }
+
+                    for (var line : components) {
+                        for (var elem : line) {
+                            System.out.print(elem.getNumber() + " ");
+                        }
+                        System.out.println();
+                    }
+
+                    if (!newEdges.get(whichComponent).isEmpty()) {
+                        for (var edge : newEdges.get(whichComponent)) {
+                            newEdges.get(currentComponent).add(edge);
+                        }
+                    }
+
+                    newEdges.get(currentComponent).add(minEdge);
+
+                }
+                if (k == graph.getNodeList().size() - 2) {
+                    return newEdges.get(currentComponent);
+                }
             }
         return null;
     }

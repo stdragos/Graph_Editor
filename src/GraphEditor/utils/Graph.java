@@ -14,6 +14,7 @@ public class Graph {
     private List<Node> nodeList;
     private List<Edge> edgeList;
 
+
     boolean directed = false;
     boolean firstTimeDirected = true;
 
@@ -57,6 +58,11 @@ public class Graph {
             B.insertAdjacent(A);
             B.getAdjacencyList().sort(Comparator.comparingInt(Node::getNumber));
 
+            if(panel.getModifyingWeights()) {
+                A.addWeightNeighbour(B, edge.getWeight());
+                B.addWeightNeighbour(A, edge.getWeight());
+            }
+
             panel.repaint();
             return true;
         } else if(directed) {
@@ -77,7 +83,16 @@ public class Graph {
         edgeList.removeIf(edge -> edge.getStartNode() == a || edge.getEndNode() == a);
         for(var node : nodeList) {
             node.removeAdjacent(a);
+
+            for(var entry : node.getWeightList().entrySet())
+            {
+                if(entry.getKey() == a.getNumber()) {
+                    node.getWeightList().remove(entry);
+                    break;
+                }
+            }
         }
+
         for(int i = 0; i < nodeList.size(); ++i) {
             if(nodeList.get(i).getNumber() != i + 1) {
                 nodeList.get(i).setNumber(i + 1);

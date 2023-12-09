@@ -22,7 +22,7 @@ public class Panel extends JPanel {
     RootFinder rootFinder;
     Kosaraju kosaraju;
 
-    private boolean directedUndirectedgraph = false;
+    private boolean directedUndirectedgraph = false; // false for undirected
 
     private boolean modifyingWeights = false;
     private Edge selectedEdge = null;

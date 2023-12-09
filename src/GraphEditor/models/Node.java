@@ -3,6 +3,7 @@ package GraphEditor.models;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,6 +18,7 @@ public class Node {
     private Node parent = null;
 
     private List<Node> adjacencyList;
+    private HashMap<Integer, Integer> weightList; //<nodeNumber, weight>
 
     private Color nodeColor = new Color(169, 169, 169);
     private final Color highlightColor =  new Color(13, 135, 222);
@@ -35,6 +37,7 @@ public class Node {
         this.number = number;
         this.adjacencyList = new ArrayList<>();
         this.numberToPrint += number;
+        weightList = new HashMap<>();
     }
 
     public int getCoordX() {
@@ -180,5 +183,17 @@ public class Node {
     }
     public List<Integer> getNumbersHeld() {
         return numbersHeld;
+    }
+
+    public HashMap<Integer, Integer> getWeightList() {
+        return weightList;
+    }
+
+    public void addWeightNeighbour(Node node, int weight) {
+        this.weightList.put(node.getNumber(), weight);
+    }
+
+    public void resetWeightList() {
+        this.weightList = new HashMap<>();
     }
 }

@@ -7,6 +7,7 @@ import GraphEditor.models.Node;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.lang.invoke.VarHandle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -228,13 +229,21 @@ public class KeyboardListener implements KeyListener {
 
         }
 
-        if(e.getKeyCode() == KeyEvent.VK_W)
+        if(e.getKeyCode() == KeyEvent.VK_W && !panel.getGraph().isDirected())
         {
+            System.out.println(panel.getGraph().isDirected());
             panel.setModifyingWeights(!panel.getModifyingWeights());
             for(var edge : panel.getGraph().getEdgeList()) {
                 edge.setShowWeight(panel.getModifyingWeights());
             }
+
             if(!panel.getModifyingWeights()) {
+                for(var node : panel.getGraph().getNodeList()) {
+                    node.resetWeightList();
+                }
+                for(var edge : panel.getGraph().getEdgeList()) {
+                    edge.setWeight(0);
+                }
                 if(panel.getSelectedEdge() != null) {
                     panel.getSelectedEdge().unhighlightEdge();
                     panel.setSelectedEdge(null);
@@ -312,12 +321,28 @@ public class KeyboardListener implements KeyListener {
         if(Character.isDigit(e.getKeyCode())) {
             if(panel.getSelectedEdge() != null) {
                  panel.getSelectedEdge().setWeight(panel.getSelectedEdge().getWeight() * 10 + (e.getKeyCode() - '0'));
+                 Node A = panel.getSelectedEdge().getStartNode();
+                 Node B = panel.getSelectedEdge().getEndNode();
+                 A.addWeightNeighbour(B, panel.getSelectedEdge().getWeight());
+                 B.addWeightNeighbour(A, panel.getSelectedEdge().getWeight());
             }
         }
 
         if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE && panel.getSelectedEdge() != null) {
             panel.getSelectedEdge().setWeight(panel.getSelectedEdge().getWeight() / 10);
         }
+
+        if(e.getKeyCode() == KeyEvent.VK_P) {
+            System.out.println("---");
+            for(var node : panel.getGraph().getNodeList())
+            {
+                for(var entry : node.getWeightList().entrySet())
+                    System.out.print(entry.getValue() + " ");
+                System.out.println();
+            }
+            System.out.println(panel.getGraph().getEdgeList().size());
+        }
+
         panel.repaint();
     }
 

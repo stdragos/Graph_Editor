@@ -18,7 +18,7 @@ public class Node {
     private Node parent = null;
 
     private List<Node> adjacencyList;
-    private HashMap<Integer, Integer> weightList; //<nodeNumber, weight>
+    private HashMap<Integer, Edge> weightList; //<nodeNumber, weight>
 
     private Color nodeColor = new Color(169, 169, 169);
     private final Color highlightColor =  new Color(13, 135, 222);
@@ -185,12 +185,12 @@ public class Node {
         return numbersHeld;
     }
 
-    public HashMap<Integer, Integer> getWeightList() {
+    public HashMap<Integer, Edge> getWeightList() {
         return weightList;
     }
 
-    public void addWeightNeighbour(Node node, int weight) {
-        this.weightList.put(node.getNumber(), weight);
+    public void addWeightNeighbour(Node node, Edge edge) {
+        this.weightList.put(node.getNumber(), edge);
     }
 
     public void resetWeightList() {

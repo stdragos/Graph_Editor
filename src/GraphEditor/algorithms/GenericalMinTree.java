@@ -34,17 +34,22 @@ public class GenericalMinTree {
         for (int k = 0; k < graph.getNodeList().size() - 1; ++k) {
             int currentComponent = 0;
             for (int i = 0; i < components.size(); ++i) {
-                if(components.get(i).size() != 0) {
+                if (components.get(i).size() != 0) {
                     currentComponent = i;
                     break;
                 }
+            }
 
                 Stack<Edge> currentEdges = new Stack<>();
-                for(var node : components.get(i)) {
-                   // if()
+                for(var node : components.get(currentComponent)) {
+                    //de adaugat in currentEdges edgeurile care nu leaga cu alte noduri din aceeasi componenta
+                    /*for(var entry : node.getWeightList().entrySet()) {
+                        for()
+                    }*/
                 }
 
             }
-        }
+        return null;
     }
+
 }

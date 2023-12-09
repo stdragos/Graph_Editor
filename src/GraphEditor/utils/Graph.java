@@ -59,8 +59,8 @@ public class Graph {
             B.getAdjacencyList().sort(Comparator.comparingInt(Node::getNumber));
 
             if(panel.getModifyingWeights()) {
-                A.addWeightNeighbour(B, edge.getWeight());
-                B.addWeightNeighbour(A, edge.getWeight());
+                A.addWeightNeighbour(B, edge);
+                B.addWeightNeighbour(A, edge);
             }
 
             panel.repaint();

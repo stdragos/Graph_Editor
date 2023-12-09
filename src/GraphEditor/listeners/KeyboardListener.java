@@ -249,6 +249,12 @@ public class KeyboardListener implements KeyListener {
                     panel.setSelectedEdge(null);
                 }
             }
+            else {
+                for(var edge : panel.getGraph().getEdgeList()) {
+                    edge.getStartNode().addWeightNeighbour(edge.getEndNode(), edge);
+                    edge.getEndNode().addWeightNeighbour(edge.getStartNode(), edge);
+                }
+            }
         }
 
         if(e.getKeyCode() == KeyEvent.VK_X) {
@@ -323,8 +329,8 @@ public class KeyboardListener implements KeyListener {
                  panel.getSelectedEdge().setWeight(panel.getSelectedEdge().getWeight() * 10 + (e.getKeyCode() - '0'));
                  Node A = panel.getSelectedEdge().getStartNode();
                  Node B = panel.getSelectedEdge().getEndNode();
-                 A.addWeightNeighbour(B, panel.getSelectedEdge().getWeight());
-                 B.addWeightNeighbour(A, panel.getSelectedEdge().getWeight());
+                 A.addWeightNeighbour(B, panel.getSelectedEdge());
+                 B.addWeightNeighbour(A, panel.getSelectedEdge());
             }
         }
 
@@ -337,7 +343,7 @@ public class KeyboardListener implements KeyListener {
             for(var node : panel.getGraph().getNodeList())
             {
                 for(var entry : node.getWeightList().entrySet())
-                    System.out.print(entry.getValue() + " ");
+                    System.out.print(entry.getValue().getWeight() + " ");
                 System.out.println();
             }
             System.out.println(panel.getGraph().getEdgeList().size());

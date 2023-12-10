@@ -339,14 +339,17 @@ public class KeyboardListener implements KeyListener {
         }
 
         if(e.getKeyCode() == KeyEvent.VK_P) {
-            System.out.println("---");
-            for(var node : panel.getGraph().getNodeList())
-            {
-                for(var entry : node.getWeightList().entrySet())
-                    System.out.print(entry.getValue().getWeight() + " ");
-                System.out.println();
-            }
-            System.out.println(panel.getGraph().getEdgeList().size());
+            new Thread(()-> {
+                panel.workingThread = true;
+                try {
+                    List<Edge> newEdges = panel.getPrim().getMinTree();
+                    paintMinTree(newEdges);
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+                panel.workingThread = false;
+            }).start();
         }
 
         if(e.getKeyCode() == KeyEvent.VK_M) {
@@ -354,19 +357,7 @@ public class KeyboardListener implements KeyListener {
                 panel.workingThread = true;
                 try {
                     List<Edge> newEdges = panel.getGenericalMinTree().getMinTree();
-
-                    if (newEdges != null) {
-                        for (var edge : newEdges) {
-                            edge.highlightEdge();
-                        }
-                    }
-                    panel.repaint();
-                    Thread.sleep(500);
-
-                    for (var edge : newEdges) {
-                        edge.unhighlightEdge();
-                    }
-                    panel.repaint();
+                    paintMinTree(newEdges);
                 } catch (InterruptedException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -380,19 +371,7 @@ public class KeyboardListener implements KeyListener {
                 panel.workingThread = true;
                 try {
                     List<Edge> newEdges = panel.getKruskal().getMinTree();
-
-                    if (newEdges != null) {
-                        for (var edge : newEdges) {
-                            edge.highlightEdge();
-                        }
-                    }
-                    panel.repaint();
-                    Thread.sleep(500);
-
-                    for (var edge : newEdges) {
-                        edge.unhighlightEdge();
-                    }
-                    panel.repaint();
+                    paintMinTree(newEdges);
                 } catch (InterruptedException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -401,6 +380,27 @@ public class KeyboardListener implements KeyListener {
             }).start();
         }
 
+        panel.repaint();
+    }
+
+    private void paintMinTree(List<Edge> newEdges) throws InterruptedException {
+        if (newEdges != null) {
+            for (var edge : newEdges) {
+                if(edge == null)
+                    continue;
+                edge.highlightEdge();
+                panel.repaint();
+                Thread.sleep(300);
+            }
+        }
+
+        for (var edge : newEdges) {
+            if(edge == null)
+                continue;
+            edge.unhighlightEdge();
+        }
+
+        Thread.sleep(1000);
         panel.repaint();
     }
 

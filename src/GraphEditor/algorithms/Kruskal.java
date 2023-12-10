@@ -32,13 +32,9 @@ public class Kruskal {
             return edge1.getWeight() - edge2.getWeight();
         });
         List<Edge> resultEdges = new ArrayList<>();
-        List<List<Node>> nodes = new ArrayList<>();
         HashMap<Node, Node> representativeElements = new HashMap<>(); // <representative, element>
 
         for(var node : graph.getNodeList()) {
-            List<Node> tmp = new ArrayList<>();
-            tmp.add(node);
-            nodes.add(tmp);
             representativeElements.put(node, node);
         }
         for(var edge : sortedEdges) {

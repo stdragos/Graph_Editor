@@ -21,6 +21,7 @@ public class Panel extends JPanel {
     Kosaraju kosaraju;
     GenericalMinTree genericalMinTree;
     Kruskal kruskal;
+    Prim prim;
 
     private boolean directedUndirectedgraph = false; // false for undirected
 
@@ -56,6 +57,7 @@ public class Panel extends JPanel {
         kosaraju = new Kosaraju(graph, this);
         genericalMinTree = new GenericalMinTree(this, graph);
         kruskal = new Kruskal(this, graph);
+        prim = new Prim(this, graph);
     }
 
     public boolean isDragging() {
@@ -167,6 +169,10 @@ public class Panel extends JPanel {
 
     public Kruskal getKruskal() {
         return kruskal;
+    }
+
+    public Prim getPrim() {
+        return prim;
     }
 
     public boolean getModifyingWeights() {

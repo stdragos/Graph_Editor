@@ -88,13 +88,6 @@ public class GenericalMinTree {
                         }
                     }
 
-                    for (var line : components) {
-                        for (var elem : line) {
-                            System.out.print(elem.getNumber() + " ");
-                        }
-                        System.out.println();
-                    }
-
                     if (!newEdges.get(whichComponent).isEmpty()) {
                         for (var edge : newEdges.get(whichComponent)) {
                             newEdges.get(currentComponent).add(edge);

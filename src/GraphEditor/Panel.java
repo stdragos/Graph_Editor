@@ -1,6 +1,7 @@
 package GraphEditor;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicSplitPaneUI;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
@@ -19,6 +20,7 @@ public class Panel extends JPanel {
     RootFinder rootFinder;
     Kosaraju kosaraju;
     GenericalMinTree genericalMinTree;
+    Kruskal kruskal;
 
     private boolean directedUndirectedgraph = false; // false for undirected
 
@@ -53,6 +55,7 @@ public class Panel extends JPanel {
         rootFinder = new RootFinder(graph, this);
         kosaraju = new Kosaraju(graph, this);
         genericalMinTree = new GenericalMinTree(this, graph);
+        kruskal = new Kruskal(this, graph);
     }
 
     public boolean isDragging() {
@@ -143,6 +146,7 @@ public class Panel extends JPanel {
         rootFinder = new RootFinder(graph, this);
         kosaraju = new Kosaraju(graph, this);
         genericalMinTree = new GenericalMinTree(this, graph);
+        kruskal = new Kruskal(this, graph);
     }
 
     public DFS getDfs() {
@@ -159,6 +163,10 @@ public class Panel extends JPanel {
 
     public GenericalMinTree getGenericalMinTree() {
         return genericalMinTree;
+    }
+
+    public Kruskal getKruskal() {
+        return kruskal;
     }
 
     public boolean getModifyingWeights() {

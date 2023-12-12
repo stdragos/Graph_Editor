@@ -380,6 +380,20 @@ public class KeyboardListener implements KeyListener {
             }).start();
         }
 
+        if(e.getKeyCode() == KeyEvent.VK_B) {
+            new Thread(()-> {
+                panel.workingThread = true;
+                try {
+                    List<Edge> newEdges = panel.getBoruvka().getMinTree();
+                    paintMinTree(newEdges);
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+                panel.workingThread = false;
+            }).start();
+        }
+
         panel.repaint();
     }
 

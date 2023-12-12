@@ -19,9 +19,9 @@ public class Kruskal {
         this.graph = graph;
     }
 
-    private Node getRoot(Node node, HashMap<Node, Node> representativeElements) {
-        while(representativeElements.get(node) != node) {
-           node = representativeElements.get(node);
+    private Node getRoot(Node node, List<Node> representativeElements) {
+        while(representativeElements.get(node.getNumber() - 1) != node) {
+           node = representativeElements.get(representativeElements.get(node.getNumber() - 1).getNumber() - 1);
         }
         return node;
     }
@@ -32,17 +32,14 @@ public class Kruskal {
             return edge1.getWeight() - edge2.getWeight();
         });
         List<Edge> resultEdges = new ArrayList<>();
-        HashMap<Node, Node> representativeElements = new HashMap<>(); // <representative, element>
+        List<Node> representativeElements = new ArrayList<>(graph.getNodeList());
 
-        for(var node : graph.getNodeList()) {
-            representativeElements.put(node, node);
-        }
         for(var edge : sortedEdges) {
             Node node1 = getRoot(edge.getEndNode(), representativeElements);
             Node node2 = getRoot(edge.getStartNode(), representativeElements);
             if(node1 != node2) {
                 resultEdges.add(edge);
-                representativeElements.put(node1, node2);
+                representativeElements.set(node1.getNumber() - 1, node2);
             }
         }
 

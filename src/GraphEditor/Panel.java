@@ -149,6 +149,7 @@ public class Panel extends JPanel {
         kosaraju = new Kosaraju(graph, this);
         genericalMinTree = new GenericalMinTree(this, graph);
         kruskal = new Kruskal(this, graph);
+        prim = new Prim(this, graph);
     }
 
     public DFS getDfs() {
